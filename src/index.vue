@@ -371,7 +371,7 @@
 <script>
     var dom = weex.requireModule('dom')
     var modal = weex.requireModule('modal');
-    var stream = weex.requireModule('stream')
+    var stream = weex.requireModule('stream');
 
     export default {
         data: {
