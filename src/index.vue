@@ -62,12 +62,12 @@
                                 <text class="cell-field-content">投资期限</text>
                             </div>
                             <div class="cell-field-progress">
-                                <div class="">
+                                <div class="field-progress">
                                     <svg style="width:94px;height:94px;">
                                         <circle cx="47" cy="47" r="45" stroke="red" stroke-width="4" fill="white"/>
                                     </svg>
                                 </div>
-                                <text class="cell-field-content">剩999万/{{item.max_finance_money/10000 }}万</text>
+                                <text class="cell-field-content">剩999万/{{item.max_finance_money / 10000 }}万</text>
                             </div>
                         </div>
                     </div>
@@ -80,12 +80,12 @@
                 <text class="footer-block-content">首页</text>
             </div>
             <div class="footer-block">
-                <image src=""></image>
-                <text>投资</text>
+                <image class="footer-block-image" src=""></image>
+                <text class="footer-block-content">投资</text>
             </div>
             <div class="footer-block">
-                <image src=""></image>
-                <text>我的</text>
+                <image class="footer-block-image" src=""></image>
+                <text class="footer-block-content">我的</text>
             </div>
         </div>
         <div class="header" :style="{opacity: headerOpacity, backgroundColor: headerBackgroundColor}">
@@ -96,14 +96,14 @@
     </div>
 </template>
 <style scoped>
-    .border-top{
-        border-top-width:1px;
+    .border-top {
+        border-top-width: 1px;
         border-top-style: solid;
         border-top-color: #dedede;
     }
 
-    .border-bottom{
-        border-bottom-width:1px;
+    .border-bottom {
+        border-bottom-width: 1px;
         border-bottom-style: solid;
         border-bottom-color: #dedede;
     }
@@ -111,7 +111,8 @@
     .container {
         background-color: #eee;
     }
-    .scroller{
+
+    .scroller {
         min-height: 1334px;
     }
 
@@ -153,23 +154,23 @@
     }
 
     .footer-block {
-        width:250px;
-        height:92px;
+        width: 250px;
+        height: 92px;
         justify-content: center;
         align-items: center;
     }
 
-    .footer-block-image{
-        width:40px;
-        height:40px;
+    .footer-block-image {
+        width: 40px;
+        height: 40px;
         background-color: #0088fb;
     }
 
-    .footer-block-content{
-        margin-top:10px;
+    .footer-block-content {
+        margin-top: 7px;
         font-size: 22px;
         color: #333;
-        width:250px;
+        width: 250px;
         text-align: center;
     }
 
@@ -204,11 +205,12 @@
     }
 
     .notice-content {
-        font-size: 22px;
+        color: #333;
+        font-size: 24px;
     }
 
     .menu {
-        margin-top: 14px;
+        margin-top: 16px;
         height: 198px;
         background-color: #fff;
         flex-direction: row;
@@ -223,24 +225,24 @@
     .menu-panel-icon {
         height: 70px;
         width: 70px;
-        margin-bottom: 10px;
+        margin-bottom: 13px;
         background-color: #0088fb;
     }
 
     .menu-panel-content {
         text-align: center;
-        font-size: 25px;
-        color: #333;
+        font-size: 24px;
+        color: #666;
     }
 
     .invest {
-        margin-bottom:92px;
+        margin-bottom: 220px;
     }
 
     .invest-title {
         flex-direction: row;
         align-items: center;
-        height: 55px;
+        height: 59px;
     }
 
     .invest-title-icon {
@@ -264,22 +266,22 @@
     }
 
     .cell-title {
-        margin-top: 35px;
+        margin-top: 42px;
         flex-direction: row;
         align-items: center;
     }
 
     .cell-title-icon {
-        height: 30px;
-        width: 30px;
+        height: 40px;
+        width: 40px;
         background-color: #0088fb;
         margin-left: 20px;
         margin-right: 10px;
     }
 
     .cell-title-content {
-        width: 310px;
-        font-size: 26px;
+        width: 350px;
+        font-size: 30px;
     }
 
     .cell-title-novice {
@@ -310,19 +312,24 @@
     }
 
     .cell-field-rate, .cell-field-time, .cell-field-progress {
-        margin-top: 28px;
         width: 250px;
+        height:146px;
         justify-content: center;
+    }
+
+    .field-rate,.field-time,.field-progress{
+        width:250px;
+        height:120px;
     }
 
     .field-rate {
         flex-direction: row;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
     }
 
     .field-rate-num {
-        font-size: 50px;
+        font-size: 48px;
         color: #ff0000;
     }
 
@@ -335,7 +342,7 @@
     .field-time {
         flex-direction: row;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
     }
 
     .field-time-day {
@@ -350,9 +357,8 @@
     }
 
     .cell-field-content {
-        margin-top: 28px;
         text-align: center;
-        font-size: 22px;
+        font-size: 24px;
         color: #000000;
     }
 
@@ -386,43 +392,44 @@
             lists: [],
             headerOpacity: 1,
             pullingDistanceStr: 0,
-            headerBackgroundColor: "rgba(0,0,0,0)" //rgb头部
+            headerBackgroundColor: "rgba(0,0,0,0)", //rgb头部
+            pageNumber: 1
         },
         methods: {
             onrefresh: function (event) {
-//                console.log('is refreshing');
-//                modal.toast({message: 'refresh', duration: 1});
-//                this.refreshing = true;
-//                setTimeout(function () {
-//                    modal.toast({message: 'refresh ok!', duration: 1});
-//                    this.lists = [1, 2, 3, 4, 5, 6, 7];
-//                    this.refreshing = false;
-//                }.bind(this), 2000)
+                console.log('is refreshing');
+                modal.toast({message: 'refresh', duration: 1});
+                this.refreshing = true;
+                setTimeout(function () {
+                    modal.toast({message: 'refresh ok!', duration: 1});
+                    this.pageNumber = 1;
+                    this.loadListFunc(this.pageNumber, res => {
+                        this.lists = res.data.response.page.list
+                    })
+                    this.refreshing = false;
+                }.bind(this), 2000)
             },
-            onpullingdown: function (event) {
-
-            },
-            onloadmore: function (event) {
-//                modal.toast({ message: 'loading', duration: 1 })
-//                var LOADMORE_COUNT = 7;
+//            onpullingdown: function (event) {
+//
+//            },
+//            onloadmore: function (event) {
+//                modal.toast({message: 'loading', duration: 1})
 //                setTimeout(function () {
-//                    var length = this.lists.length;
-//                    for (let i = length; i < length + LOADMORE_COUNT; ++i) {
-//                        this.lists.push(i + 1)
-//                    }
-//                    dom.resetLoadmore(el,{});
+//                    this.pageNumber++;
+//                    this.loadListFunc(this.pageNumber, res => this.lists.push(res.data.response.page.list))
+//                    dom.resetLoadmore(el, {});
 //                }.bind(this), 1500)
-            },
-            loadListFunc: function(pageNum,callback) {
+//            },
+            loadListFunc: function (pageNum, callback) {
                 return stream.fetch({
                     method: 'POST',
                     type: 'json',
-                    url: 'http://192.168.10.13:85/api/product/item/findAllInvestItemsList?pageNumber='+pageNum+'&pageSize='+10
-                },callback)
+                    url: 'http://192.168.10.13:85/api/product/item/findAllInvestItemsList?pageNumber=' + pageNum + '&pageSize=' + 10
+                }, callback)
             }
         },
         created (){
-            this.loadListFunc(1,res =>{
+            this.loadListFunc(this.pageNumber, res => {
                 this.lists = res.data.response.page.list
             })
         }
