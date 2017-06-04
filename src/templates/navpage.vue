@@ -33,7 +33,7 @@
     }
 
     .banner{
-        height:
+        height:20px;
     }
 </style>
 <script>
