@@ -168,7 +168,8 @@
     }
 </style>
 <script>
-    var dom = weex.requireModule('dom')
+    var navigator = weex.requireModule('navigator');
+    var dom = weex.requireModule('dom');
     var modal = weex.requireModule('modal');
     var stream = weex.requireModule('stream');
 
@@ -210,6 +211,14 @@
                     type: 'json',
                     url: 'http://192.168.10.13:85/api/product/item/findAllInvestItemsList?pageNumber=' + pageNum + '&pageSize=' + 10
                 }, callback)
+            },
+            jump: function (event) {
+                navigator.push({
+                    url: 'http://dotwe.org/raw/dist/519962541fcf6acd911986357ad9c2ed.js',
+                    animated: "true"
+                },function(event){
+                    modal.toast({ message: 'callback: ' + event })
+                })
             }
         },
         created (){
