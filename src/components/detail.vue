@@ -7,7 +7,10 @@
                 <text class="indicator">Refreshing ...</text>
             </refresh>
             <div class="banner">
-                <text class="banner-rate">6.00%</text>
+                <div class="banner-rate">
+                    <text class="banner-rate-number">6.00</text>
+                    <text class="banner-rate-unit">%</text>
+                </div>
                 <text class="banner-text">预期年化收益率</text>
             </div>
             <div class="">
@@ -141,7 +144,34 @@
         width: 750px;
         height: 93px;
         background-color: white;
-        border-top-color: #f00;
+    }
+    .banner{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top:88px;
+        height:200px;
+        background-color: #fd7507;
+    }
+    .banner-rate{
+        margin-bottom:10px;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+    }
+    .banner-rate-number{
+        color:#fff;
+        font-size: 80px;
+    }
+    .banner-rate-unit{
+        color:#fff;
+        font-size: 30px;
+        line-height:60px;
+    }
+    .banner-text{
+        margin-bottom:20px;
+        color:#fff;
+        font-size: 30px;
     }
 </style>
 <script>

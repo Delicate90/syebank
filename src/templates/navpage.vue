@@ -31,10 +31,6 @@
         font-size: 30px;
         text-align: center;
     }
-
-    .banner{
-        height:20px;
-    }
 </style>
 <script>
 
