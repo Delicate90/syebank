@@ -8,7 +8,7 @@
             </refresh>
             <div class="banner">
                 <div class="banner-rate">
-                    <text class="banner-rate-number">6.00</text>
+                    <text class="banner-rate-number">{{invest.rate}}</text>
                     <text class="banner-rate-unit">%</text>
                 </div>
                 <text class="banner-text">预期年化收益率</text>
@@ -16,11 +16,11 @@
             <div class="block-1 white-block padding-left padding-right border-top border-bottom">
                 <div class="block-col border-right">
                     <text class="block-col-title">投资期限</text>
-                    <text class="block-col-content">160天</text>
+                    <text class="block-col-content">{{invest.days}}天</text>
                 </div>
                 <div class="block-col">
                     <text class="block-col-title">起投金额</text>
-                    <text class="block-col-content">1000元</text>
+                    <text class="block-col-content">{{invest.start}}元</text>
                 </div>
             </div>
             <div class="block-2 white-block margin-top padding-left border-top border-bottom">
@@ -42,7 +42,7 @@
                     <img class="block-row-icon" />
                     <div class="block-row-content">
                         <text class="block-row-content-title">结算方式:</text>
-                        <text class="block-row-content-text">一次性还本付息</text>
+                        <text class="block-row-content-text">{{invest.type}}</text>
                     </div>
                 </div>
             </div>
@@ -50,17 +50,17 @@
                 <div class="block-progress-left">
                     <text class="block-progress-title">募集日</text>
                     <img class="block-progess-icon"/>
-                    <text class="block-progress-date">2016.4.29</text>
+                    <text class="block-progress-date">{{invest.startDate}}</text>
                 </div>
                 <div class="block-progress-mid">
                     <text class="block-progress-title">起息日</text>
                     <img class="block-progess-icon"/>
-                    <text class="block-progress-date">2016.4.29</text>
+                    <text class="block-progress-date">{{invest.inevestDate}}</text>
                 </div>
                 <div class="block-progress-right">
                     <text class="block-progress-title">到期日</text>
                     <img class="block-progess-icon"/>
-                    <text class="block-progress-date">2016.4.29</text>
+                    <text class="block-progress-date">{{invest.endDate}}</text>
                 </div>
                 <div class="block-progress-line-left"></div>
                 <div class="block-progress-line-right"></div>
@@ -69,48 +69,49 @@
                 <div class="block-4-mount">
                     <div class="block-4-text">
                         <text class="block-4-text-title">可投金额(元)</text>
-                        <text class="block-4-text-content">750,000</text>
+                        <text class="block-4-text-content">{{invest.canBuy}}</text>
                     </div>
                     <div class="block-4-text" style="align-items: flex-end">
                         <text class="block-4-text-title">预期收益(元)</text>
-                        <text class="block-4-text-content" style="color:#f00;">25.85</text>
+                        <text class="block-4-text-content" style="color:#f00;">{{invest.res}}</text>
                     </div>
                 </div>
+                <text>{{invest.amount}}</text>
                 <div class="block-4-input">
-                    <div class="block-4-input-less">-</div>
-                    <input type="number" class="block-4-input-content"/>
-                    <div class="block-4-input-more">+</div>
+                    <text @click="amountLess" class="block-4-input-less">-</text>
+                    <input type="tel" class="block-4-input-content" :placeholder="invest.amount_placeholder" maxlength="9" return-key-type="done" :value="invest.amount" @blur="amountBlur" @input="oninput"/>
+                    <text @click="amountMore" class="block-4-input-more">+</text>
                 </div>
             </div>
-            <div class="block-5 white-block margin-top padding-left padding-right border-top border-bottom">
-                <div>
-                    <text>专属码:</text>
-                    <input />
+            <div v-if="invest.item_type == '03'" class="block-5 white-block margin-top padding-left padding-right border-top border-bottom">
+                <div class="block-row">
+                    <text class="block-exclusive-title">专属码:</text>
+                    <input class="block-exclusive-code" type="text" />
                 </div>
-                <text>专属项目仅供指定客户购买，需输入专属码</text>
+                <text class="block-exclusive-summary block-row">专属项目仅供指定客户购买，需输入专属码</text>
             </div>
             <div class="block-6 white-block margin-top padding-left border-top border-bottom">
                 <div class="block-row border-bottom">
-                    <img />
-                    <text>产品详情</text>
-                    <img />
+                    <img class="block-row-icon" />
+                    <text class="block-row-cell">产品详情</text>
+                    <img class="block-row-push" />
                 </div>
                 <div class="block-row border-bottom">
-                    <img />
-                    <text>投资记录</text>
-                    <img />
+                    <img class="block-row-icon" />
+                    <text class="block-row-cell">投资记录</text>
+                    <img class="block-row-push" />
                 </div>
                 <div class="block-row">
-                    <img />
-                    <text>相关协议</text>
-                    <img />
+                    <img class="block-row-icon" />
+                    <text class="block-row-cell">相关协议</text>
+                    <img class="block-row-push" />
                 </div>
             </div>
         </scroller>
-        <div class="footer border-top">
-            <text>马上投标</text>
+        <div :class="['footer','border-top', 'footer-' + invest.item_status_css]">
+            <text class="footer-text">{{invest.item_status}}</text>
         </div>
-        <com_navpage :title="title"></com_navpage>
+        <com_navpage :title="invest.title"></com_navpage>
     </div>
 </template>
 <link href="../css/main.css" type="text/css" rel="stylesheet" />
@@ -153,17 +154,31 @@
         padding-top:88px;
         padding-bottom:107px;
     }
+    .refresh{
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width:750px;
+        height:60px;
+    }
 
     .footer {
         position: fixed;
         bottom: 0;
-        flex-direction: row;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         width: 750px;
         height: 93px;
-        background-color: white;
+        background-color: #6e6e6e;
     }
+    .footer-do{
+        background-color: #fd7507;
+    }
+    .footer-text{
+        font-size: 36px;
+        color: #fff;
+    }
+
     .banner{
         flex-direction: column;
         justify-content: center;
@@ -220,7 +235,7 @@
     }
     .block-row{
         flex-direction: row;
-        height:80px;
+        height:85px;
         align-items: center;
     }
     .block-row-icon{
@@ -333,11 +348,11 @@
         text-align: center;
     }
     .block-4-input-less{
-        margin-right: 4px;
+        margin-right: 10px;
         color: #666;
     }
     .block-4-input-more{
-        margin-left: 4px;
+        margin-left: 10px;
         background-color: #f6ad4a;
         color: #fff;
         border-width:1px;
@@ -346,6 +361,9 @@
     }
     .block-4-input-content{
         flex: 1;
+        padding-left:10px;
+        padding-right:10px;
+        text-align: center;
         border-width:1px;
         border-style: solid;
         border-color: #dedede;
@@ -353,10 +371,40 @@
 
 
     .block-5{
+        padding-top:5px;
         height:150px;
+    }
+    .block-exclusive-title{
+        margin-right:20px;
+        font-size: 28px;
+        color: #333;
+    }
+    .block-exclusive-code{
+        flex: 1;
+        height:58px;
+        border-width:1px;
+        border-style: solid;
+        border-color: #dedede;
+    }
+    .block-exclusive-summary{
+        padding-top:12px;
+        font-size: 24px;
+        color: #f00;
     }
 
     .block-6{
+    }
+    .block-row-cell{
+        flex: 1;
+        margin-left: 17px;
+        font-size: 28px;
+        color: #333;
+    }
+    .block-row-push{
+        margin-right:20px;
+        width:50px;
+        height:50px;
+        background-color: #0088fb;
     }
 </style>
 <script>
@@ -364,13 +412,88 @@
 
     export default{
         data:{
-            title:"麦乐科1号 PRJ20170604"
+            invest:{
+                title:"麦乐科1号 PRJ20170604",
+                rate:"6.00",
+                days:"160",
+                start:1000,
+                type:"一次性还本付息",
+                startDate:"2016.4.29",
+                inevestDate:"2016.4.29",
+                endDate:"2016.4.29",
+                canBuy:750000,
+                res:"25.85",
+                amount:1000,
+                amount_placeholder:"起投金额1000元",
+                item_type:"01",
+                item_status_css:"do",
+                item_status:"马上投标"
+            },
+            amount_placeholder:function(){
+                return "起投金额1000元";
+            }
         },
         components:{
             com_navpage
         },
         methods:{
-
+            amountLess:function(e){
+                this.isAmount();
+                if(this.invest.amount>this.invest.start){
+                    this.invest.amount = this.invest.amount*1 - this.invest.start;
+                }
+            },
+            amountMore:function(e){
+                this.isAmount();
+                if(this.invest.amount > this.invest.canBuy){//是否超过可投金额
+                    this.invest.amount = this.invest.canBuy;
+                }else{
+                    this.invest.amount = this.invest.amount*1 + this.invest.start;
+                }
+            },
+            oninput:function(e){
+                var g = /^[1-9]*[1-9][0-9]*$/;
+                if(g.test(e.value)){//是否为数字
+                    if(e.value >= this.invest.start){//是否小于起投金额
+                        if(e.value%this.invest.start === 0){//是否为起投金额的倍数
+                            if(this.invest.canBuy >= e.value){//是否超过可投金额
+                                this.invest.amount = e.value;
+                            }else{
+                                this.invest.amount = this.invest.canBuy;
+                            }
+                        }else{
+                            this.invest.amount = Math.floor(this.invest.amount/this.invest.start)*this.invest.start;
+                        }
+                    }else{
+                        this.invest.amount = this.invest.start;
+                    }
+                }else{
+                    this.invest.amount = this.invest.start;
+                }
+            },
+            amountBlur:function(e){
+                this.isAmount();
+            },
+            isAmount:function(){
+                var g = /^[1-9]*[1-9][0-9]*$/;
+                if(g.test(this.invest.amount)){//是否为数字
+                    if(this.invest.amount >= this.invest.start){//是否小于起投金额
+                        if(this.invest.amount%this.invest.start === 0){//是否为起投金额的倍数
+                            if(this.invest.canBuy >= this.invest.amount){//是否超过可投金额
+                                this.invest.amount = this.invest.amount;
+                            }else{
+                                this.invest.amount = this.invest.canBuy;
+                            }
+                        }else{
+                            this.invest.amount = Math.floor(this.invest.amount/this.invest.start)*this.invest.start;
+                        }
+                    }else{
+                        this.invest.amount = this.invest.start;
+                    }
+                }else{
+                    this.invest.amount = this.invest.start;
+                }
+            }
         }
     }
 </script>
