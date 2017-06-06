@@ -1,6 +1,5 @@
  <template>
     <div class="container">
-
         <scroller class="scroller" show-scrollbar="false" >
             <refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown"
                      :display="refreshing ? 'show' : 'hide'">
@@ -8,7 +7,7 @@
             </refresh>
             <div class="banner">
                 <div class="banner-rate">
-                    <text class="banner-rate-number">{{invest.rate}}</text>
+                    <text class="banner-rate-number">{{invest.rate | money}}</text>
                     <text class="banner-rate-unit">%</text>
                 </div>
                 <text class="banner-text">预期年化收益率</text>
@@ -69,16 +68,16 @@
                 <div class="block-4-mount">
                     <div class="block-4-text">
                         <text class="block-4-text-title">可投金额(元)</text>
-                        <text class="block-4-text-content">{{invest.canBuy}}</text>
+                        <text class="block-4-text-content">{{invest.canBuy | money}}</text>
                     </div>
                     <div class="block-4-text" style="align-items: flex-end">
                         <text class="block-4-text-title">预期收益(元)</text>
-                        <text class="block-4-text-content" style="color:#f00;">{{invest.res}}</text>
+                        <text class="block-4-text-content" style="color:#f00;">{{invest.res | money}}</text>
                     </div>
                 </div>
                 <div class="block-4-input">
                     <text @click="amountLess" class="block-4-input-less">-</text>
-                    <input type="tel" class="block-4-input-content" :placeholder="invest.amount_placeholder" maxlength="9" return-key-type="done" :value="invest.amount" @blur="amountBlur" @input="oninput"/>
+                    <input type="tel" class="block-4-input-content" :placeholder="invest.amount_placeholder" maxlength="9" return-key-type="done" :value="invest.amount" @blur="amountBlur" @input="oninput" @longpress="onlongpress"/>
                     <text @click="amountMore" class="block-4-input-more">+</text>
                 </div>
             </div>
@@ -408,21 +407,22 @@
 </style>
 <script>
     import com_navpage from "../templates/navpage.vue"
+    import * as filters from '../plugins/filter.js'
 
     export default{
         data:{
             invest:{
                 title:"麦乐科1号 PRJ20170604",
-                rate:"6.00",
+                rate:6,
                 days:"160",
                 start:1000,
                 type:"一次性还本付息",
                 startDate:"2016.4.29",
                 inevestDate:"2016.4.29",
                 endDate:"2016.4.29",
-                endTime:"2017-06-08 12:33:33",
+                endTime:"2017/06/08 12:33:33",
                 canBuy:750000,
-                res:"25.85",
+                res:25.85,
                 amount:1000,
                 amount_placeholder:"起投金额1000元",
                 item_type:"01",
@@ -433,6 +433,7 @@
             end_hour:"00",
             end_minute:"00",
             end_second:"00",
+            end_timer:"",
             amount_placeholder:function(){
                 return "起投金额1000元";
             }
@@ -459,6 +460,9 @@
             },
             oninput:function(e){
                 this.invest.amount = e.value;
+            },
+            onlongpress:function(e){
+                return false
             },
             amountBlur:function(e){
                 this.isAmount();
@@ -490,7 +494,7 @@
                 this.invest.res = (this.invest.amount*this.invest.rate/100)*this.invest.days/360;
             },
             showTime:function(){
-                var time = setInterval(function(){
+                this.end_timer = setInterval(function(){
                     var time_now = new Date();  // 获取当前时间
                     time_now = time_now.getTime();
                     var time_end = new Date(this.invest.endTime).getTime();
@@ -507,6 +511,8 @@
                         int_second = Math.floor(time_distance/1000)
 
                         // 时分秒为单数时、前面加零站位
+                        if(int_day < 10)
+                            int_day = "0" + int_day;
                         if(int_hour < 10)
                             int_hour = "0" + int_hour;
                         if(int_minute < 10)
@@ -520,9 +526,9 @@
                         this.end_minute = int_minute;
                         this.end_second = int_second;
                     }else{
-                        clearInterval(time);
+                        clearInterval(this.end_timer);
                     }
-                },1000);
+                }.bind(this),1000);
 
             },
             loadDetailFunc: function(id,callback){
@@ -530,10 +536,22 @@
             }
         },
         created (){
+            this.showTime();
+            this.calculateIncome();
             this.loadDetailFunc("123123123123123123123",() => {
-                this.calculateIncome();
-                this.showTime();
             })
+        },
+        filters: {
+            money:function(s){
+                s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(2) + "";
+                var l = s.split(".")[0].split("").reverse(),
+                    r = s.split(".")[1],
+                    t = "";
+                for (var i = 0; i < l.length; i++) {
+                    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+                }
+                return t.split("").reverse().join("") + "." + r;
+            }
         }
     }
 </script>
