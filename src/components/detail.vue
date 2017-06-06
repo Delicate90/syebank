@@ -28,13 +28,13 @@
                     <img class="block-row-icon" />
                     <div class="block-row-content">
                         <text class="block-row-content-title">结束时间: </text>
-                        <text class="block-row-content-text text-red">01</text>
+                        <text class="block-row-content-text text-red">{{end_day}}</text>
                         <text class="block-row-content-text">天</text>
-                        <text class="block-row-content-text text-red">01</text>
+                        <text class="block-row-content-text text-red">{{end_hour}}</text>
                         <text class="block-row-content-text">小时</text>
-                        <text class="block-row-content-text text-red">01</text>
+                        <text class="block-row-content-text text-red">{{end_minute}}</text>
                         <text class="block-row-content-text">分</text>
-                        <text class="block-row-content-text text-red">01</text>
+                        <text class="block-row-content-text text-red">{{end_second}}</text>
                         <text class="block-row-content-text">秒</text>
                     </div>
                 </div>
@@ -76,7 +76,6 @@
                         <text class="block-4-text-content" style="color:#f00;">{{invest.res}}</text>
                     </div>
                 </div>
-                <text>{{invest.amount}}</text>
                 <div class="block-4-input">
                     <text @click="amountLess" class="block-4-input-less">-</text>
                     <input type="tel" class="block-4-input-content" :placeholder="invest.amount_placeholder" maxlength="9" return-key-type="done" :value="invest.amount" @blur="amountBlur" @input="oninput"/>
@@ -421,6 +420,7 @@
                 startDate:"2016.4.29",
                 inevestDate:"2016.4.29",
                 endDate:"2016.4.29",
+                endTime:"2017-06-08 12:33:33",
                 canBuy:750000,
                 res:"25.85",
                 amount:1000,
@@ -429,6 +429,10 @@
                 item_status_css:"do",
                 item_status:"马上投标"
             },
+            end_day:"00",
+            end_hour:"00",
+            end_minute:"00",
+            end_second:"00",
             amount_placeholder:function(){
                 return "起投金额1000元";
             }
@@ -442,6 +446,7 @@
                 if(this.invest.amount>this.invest.start){
                     this.invest.amount = this.invest.amount*1 - this.invest.start;
                 }
+                this.calculateIncome();
             },
             amountMore:function(e){
                 this.isAmount();
@@ -450,42 +455,29 @@
                 }else{
                     this.invest.amount = this.invest.amount*1 + this.invest.start;
                 }
+                this.calculateIncome();
             },
             oninput:function(e){
-                var g = /^[1-9]*[1-9][0-9]*$/;
-                if(g.test(e.value)){//是否为数字
-                    if(e.value >= this.invest.start){//是否小于起投金额
-                        if(e.value%this.invest.start === 0){//是否为起投金额的倍数
-                            if(this.invest.canBuy >= e.value){//是否超过可投金额
-                                this.invest.amount = e.value;
-                            }else{
-                                this.invest.amount = this.invest.canBuy;
-                            }
-                        }else{
-                            this.invest.amount = Math.floor(this.invest.amount/this.invest.start)*this.invest.start;
-                        }
-                    }else{
-                        this.invest.amount = this.invest.start;
-                    }
-                }else{
-                    this.invest.amount = this.invest.start;
-                }
+                this.invest.amount = e.value;
             },
             amountBlur:function(e){
                 this.isAmount();
+                this.calculateIncome();
             },
             isAmount:function(){
                 var g = /^[1-9]*[1-9][0-9]*$/;
                 if(g.test(this.invest.amount)){//是否为数字
                     if(this.invest.amount >= this.invest.start){//是否小于起投金额
+                        var tempAmount;
                         if(this.invest.amount%this.invest.start === 0){//是否为起投金额的倍数
-                            if(this.invest.canBuy >= this.invest.amount){//是否超过可投金额
-                                this.invest.amount = this.invest.amount;
-                            }else{
-                                this.invest.amount = this.invest.canBuy;
-                            }
+                            tempAmount = this.invest.amount;
                         }else{
-                            this.invest.amount = Math.floor(this.invest.amount/this.invest.start)*this.invest.start;
+                            tempAmount = Math.floor(this.invest.amount/this.invest.start)*this.invest.start;
+                        }
+                        if(this.invest.canBuy >= tempAmount){//是否超过可投金额
+                            this.invest.amount = tempAmount;
+                        }else{
+                            this.invest.amount = this.invest.canBuy;
                         }
                     }else{
                         this.invest.amount = this.invest.start;
@@ -493,7 +485,55 @@
                 }else{
                     this.invest.amount = this.invest.start;
                 }
+            },
+            calculateIncome:function(){
+                this.invest.res = (this.invest.amount*this.invest.rate/100)*this.invest.days/360;
+            },
+            showTime:function(){
+                var time = setInterval(function(){
+                    var time_now = new Date();  // 获取当前时间
+                    time_now = time_now.getTime();
+                    var time_end = new Date(this.invest.endTime).getTime();
+                    var time_distance = time_end - time_now;  // 结束时间减去当前时间
+                    var int_day, int_hour, int_minute, int_second;
+                    if(time_distance >= 0){
+                        // 天时分秒换算
+                        int_day = Math.floor(time_distance/86400000)
+                        time_distance -= int_day * 86400000;
+                        int_hour = Math.floor(time_distance/3600000)
+                        time_distance -= int_hour * 3600000;
+                        int_minute = Math.floor(time_distance/60000)
+                        time_distance -= int_minute * 60000;
+                        int_second = Math.floor(time_distance/1000)
+
+                        // 时分秒为单数时、前面加零站位
+                        if(int_hour < 10)
+                            int_hour = "0" + int_hour;
+                        if(int_minute < 10)
+                            int_minute = "0" + int_minute;
+                        if(int_second < 10)
+                            int_second = "0" + int_second;
+
+                        // 显示时间
+                        this.end_day = int_day;
+                        this.end_hour = int_hour;
+                        this.end_minute = int_minute;
+                        this.end_second = int_second;
+                    }else{
+                        clearInterval(time);
+                    }
+                },1000);
+
+            },
+            loadDetailFunc: function(id,callback){
+                callback
             }
+        },
+        created (){
+            this.loadDetailFunc("123123123123123123123",() => {
+                this.calculateIncome();
+                this.showTime();
+            })
         }
     }
 </script>
