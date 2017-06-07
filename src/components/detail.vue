@@ -24,7 +24,7 @@
             </div>
             <div class="block-2 white-block margin-top padding-left border-top border-bottom">
                 <div class="block-row border-bottom">
-                    <img class="block-row-icon" />
+                    <image class="block-row-icon"></image>
                     <div class="block-row-content">
                         <text class="block-row-content-title">结束时间: </text>
                         <text class="block-row-content-text text-red">{{end_day}}</text>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="block-row">
-                    <img class="block-row-icon" />
+                    <image class="block-row-icon"></image>
                     <div class="block-row-content">
                         <text class="block-row-content-title">结算方式:</text>
                         <text class="block-row-content-text">{{invest.type}}</text>
@@ -48,17 +48,17 @@
             <div class="block-3 white-block margin-top padding-left padding-right border-top border-bottom">
                 <div class="block-progress-left">
                     <text class="block-progress-title">募集日</text>
-                    <img class="block-progess-icon"/>
+                    <image class="block-progess-icon"></image>
                     <text class="block-progress-date">{{invest.startDate}}</text>
                 </div>
                 <div class="block-progress-mid">
                     <text class="block-progress-title">起息日</text>
-                    <img class="block-progess-icon"/>
+                    <image class="block-progess-icon"></image>
                     <text class="block-progress-date">{{invest.inevestDate}}</text>
                 </div>
                 <div class="block-progress-right">
                     <text class="block-progress-title">到期日</text>
-                    <img class="block-progess-icon"/>
+                    <image class="block-progess-icon"></image>
                     <text class="block-progress-date">{{invest.endDate}}</text>
                 </div>
                 <div class="block-progress-line-left"></div>
@@ -90,19 +90,19 @@
             </div>
             <div class="block-6 white-block margin-top padding-left border-top border-bottom">
                 <div class="block-row border-bottom">
-                    <img class="block-row-icon" />
+                    <image class="block-row-icon"></image>
                     <text class="block-row-cell">产品详情</text>
-                    <img class="block-row-push" />
+                    <image class="block-row-push"></image>
                 </div>
                 <div class="block-row border-bottom">
-                    <img class="block-row-icon" />
+                    <image class="block-row-icon"></image>
                     <text class="block-row-cell">投资记录</text>
-                    <img class="block-row-push" />
+                    <image class="block-row-push"></image>
                 </div>
                 <div class="block-row">
-                    <img class="block-row-icon" />
+                    <image class="block-row-icon"></image>
                     <text class="block-row-cell">相关协议</text>
-                    <img class="block-row-push" />
+                    <image class="block-row-push"></image>
                 </div>
             </div>
         </scroller>

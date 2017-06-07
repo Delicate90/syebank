@@ -3,14 +3,14 @@
         <scroller class="scroller" show-scrollbar="false" >
             <div class="block-list white-block padding-left border-bottom">
                 <div class="block-list-cell border-bottom">
-                    <img class="block-cell-icon" />
+                    <image class="block-cell-icon"></image>
                     <div class="block-cell-text">
                         <text class="block-cell-title">中国建设银行（****8188）</text>
                         <text class="block-cell-summary">单笔限额100万，日累积限额100万</text>
                     </div>
                 </div>
                 <div class="block-list-cell">
-                    <img class="block-cell-icon" />
+                    <image class="block-cell-icon"></image>
                     <div class="block-cell-text">
                         <text class="block-cell-title">中国建设银行（****8188）</text>
                         <text class="block-cell-summary">单笔限额100万，日累积限额100万</text>
@@ -19,7 +19,7 @@
             </div>
             <div class="block-add white-block margin-top border-top border-bottom">
                 <div class="block-add-border">
-                    <img class="block-add-icon" />
+                    <image class="block-add-icon"></image>
                     <text class="block-add-text">添加银行卡</text>
                 </div>
             </div>

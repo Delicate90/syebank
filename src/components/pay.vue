@@ -27,7 +27,7 @@
             </div>
             <div class="block-4 white-block padding-left border-top border-bottom">
                 <div class="block-row">
-                    <img class="block-row-card-img" />
+                    <image class="block-row-card-img"></image>
                     <text class="block-row-card-title">中国建设银行</text>
                     <text class="block-row-card-number">*******18888</text>
                 </div>
@@ -36,7 +36,8 @@
                         <text class="block-card-summary">单笔限额100万，日累积限额100万</text>
                         <div class="block-card-change">
                             <text class="block-card-change-text">更换银行卡</text>
-                            <img class="block-card-change-img" />
+                            <image class="block-card-change-img"></image>
+
                         </div>
                     </div>
                     <div class="block-card-text">
@@ -56,7 +57,7 @@
                     <text class="block-agree-link">《投资人服务协议》</text>
                 </div>
                 <div class="block-agree-row">
-                    <img class="block-agree-icon" />
+                    <image class="block-agree-icon"></image>
                     <text class="block-agree-text">我已阅读并同意</text>
                     <text class="block-agree-link">《快捷支付服务协议》</text>
                 </div>
